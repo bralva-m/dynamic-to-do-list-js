@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', ()=>{
+    loadTasks();
 
 const addButton = document.getElementById('add-task-btn');
 const taskInput = document.getElementById('task-input');
 const taskList = document.getElementById('task-list');
 
-function addTask() {
+function addTask(taskText,save = true) {
     const taskText = taskInput.value.trim();
     if (taskText === ''){
         alert('please input a valid task');
@@ -24,10 +25,21 @@ function addTask() {
     task.append(button);
     taskList.appendChild(task)
             }
+        if (save) {
+            const storedTasks= JSON.parse(localStorage.getItem('tasks') || '[]')
+            storedTasks.push(taskText);
+            localStorage.setItem('tasks', JSON.stringify(storedztasks));
+        }
         
 taskInput.value= '';
       
 }
+function loadTasks() {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    storedTasks.forEach(taskText => addText(taskText, false));
+    //'false' indicates not to save again to local storage
+}
+
 
 addButton.addEventListener('click', addTask);
 taskInput.addEventListener('keypress', (event) => {
